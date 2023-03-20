@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControlLabel, Grid, TextField } from '@mui/material'
+import { Button, Checkbox, Grid, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 
 export default function AddNews() {
@@ -11,45 +11,81 @@ export default function AddNews() {
     const [views, setViews] = useState(1);
     const [attractive, setAttractive] = useState(false);
 
-    const [formData, setFormData] = useState({
-        title: title,
-        description: description,
-        content: content,
-        img: img,
-        creted: creted,
-        status: status,
-        views: views,
-        attractive: attractive,
-    })
-    const handleFormData = () => {
-        setFormData({
-            title: title,
-            description: description,
-            content: content,
-            img: img,
-            creted: creted,
-            status: status,
-            views: views,
-            attractive: attractive,
-        })
-    }
+    // const [formData, setFormData] = useState({
+    //     title: title,
+    //     description: description,
+    //     content: content,
+    //     img: img,
+    //     creted: creted,
+    //     status: status,
+    //     views: views,
+    //     attractive: attractive,
+    // })
+    const [messtitle, setmesstitle] = useState('');
+    const [messdescription, setmessdescription] = useState('');
+    const [messcontent, setmesscontent] = useState('');
+    const [messcreted, setmesscreted] = useState('');
+    const [messimg, setmessimg] = useState('');
+    const [messviews, setmessviews] = useState('');
+
     const handleSubmit = () => {
-
-        console.log(formData)
-
-        fetch(`https://6418728e75be53f451dfc104.mockapi.io/news`, {
-            method: 'POST',
-            body: JSON.stringify(formData), headers: {
-                'Content-Type': 'application/json'
-            },
-        }).then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP Status: ${response.status}`)
+        const regex = /^.{6,}/i;
+        if (!regex.test(title) || !regex.test(description) || !regex.test(content) || !regex.test(img) || !regex.test(creted) || views <= 0) {
+            if (!regex.test(title)) {
+                setmesstitle('Title must be more than 6 charecter!')
+            } else {
+                setmesstitle('')
             }
-            return response.json()
-        })
-            .then(data => { console.log(data) })
-            .catch(error => console.log(error.message));
+            if (!regex.test(description)) {
+                setmessdescription('Description be more than 6 charecter!')
+            } else {
+                setmessdescription('')
+            }
+            if (!regex.test(content)) {
+                setmesscontent('Content be more than 6 charecter!')
+            } else {
+                setmesscontent('')
+            }
+            if (!regex.test(img)) {
+                setmessimg('Img URL be more than 6 charecter!')
+            } else {
+                setmessimg('')
+            }
+            if (!regex.test(creted)) {
+                setmesscreted('creted be more than 6 charecter!')
+            } else {
+                setmesscreted('')
+            }
+            if (views <= 0) {
+                setmessviews('View must be geate than 1')
+            } else {
+                setmessviews('')
+            }
+        }
+        else {
+            fetch(`https://6418728e75be53f451dfc104.mockapi.io/news`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    title: title,
+                    description: description,
+                    content: content,
+                    img: img,
+                    creted: creted,
+                    status: status,
+                    views: views,
+                    attractive: attractive,
+                }), headers: {
+                    'Content-Type': 'application/json'
+                },
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP Status: ${response.status}`)
+                }
+                return response.json()
+            })
+                .then(data => { console.log(data) })
+                .catch(error => console.log(error.message));
+        }
 
     }
     return (
@@ -66,6 +102,7 @@ export default function AddNews() {
                     variant="standard"
                     onChange={(e) => { setTitle(e.target.value); }}
                 />
+                {messtitle && <Typography sx={{ color: 'red' }}>{messtitle}</Typography>}
                 <TextField
                     autoFocus
                     margin="dense"
@@ -76,6 +113,8 @@ export default function AddNews() {
                     variant="standard"
                     onChange={(e) => { setDescription(e.target.value); }}
                 />
+                {messdescription && <Typography sx={{ color: 'red' }}>{messdescription}</Typography>}
+
                 <TextField
                     autoFocus
                     margin="dense"
@@ -86,6 +125,8 @@ export default function AddNews() {
                     variant="standard"
                     onChange={(e) => { setContent(e.target.value); }}
                 />
+                {messcontent && <Typography sx={{ color: 'red' }}>{messcontent}</Typography>}
+
                 <TextField
                     autoFocus
                     margin="dense"
@@ -96,6 +137,8 @@ export default function AddNews() {
                     variant="standard"
                     onChange={(e) => { setImg(e.target.value); }}
                 />
+                {messimg && <Typography sx={{ color: 'red' }}>{messimg}</Typography>}
+
                 <TextField
                     autoFocus
                     margin="dense"
@@ -106,32 +149,53 @@ export default function AddNews() {
                     variant="standard"
                     onChange={(e) => { setCreated(e.target.value); }}
                 />
-                <FormControlLabel
-                    control={<Checkbox />}
-                    label="Status"
-                    labelPlacement="start"
-                    onChange={(e) => { setStatus(e.target.checked); }}
+                {messcreted && <Typography sx={{ color: 'red' }}>{messcreted}</Typography>}
 
-                />
                 <TextField
                     autoFocus
                     margin="dense"
                     name="views"
                     label="Views"
                     type="number"
+                    defaultValue={1}
                     fullWidth
                     variant="standard"
                     onChange={(e) => { setViews(e.target.value); }}
                 />
+                {messviews && <Typography sx={{ color: 'red' }}>{messviews}</Typography>}
+
+                {/* <FormControlLabel
+                    control={<Checkbox />}
+                    label="Status"
+                    labelPlacement="start"
+                    onChange={(e) => { setStatus(e.target.checked); }}
+
+                /> */}
+
+                <Typography sx={{ margin: '10px' }}>
+                    Status: <Checkbox
+                        onChange={(e) => { setStatus(e.target.checked); }}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                    />
+                </Typography>
+
+                <Typography sx={{ margin: '10px' }}>
+                    Attractive: <Checkbox
+                        onChange={(e) => { setAttractive(e.target.checked); }}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                    />
+                </Typography>
+
+                {/* 
                 <FormControlLabel
                     control={<Checkbox />}
                     label="Attractive"
                     labelPlacement="start"
-                    onChange={(e) => { setAttractive(e.target.checked); handleFormData(); }}
+                    onChange={(e) => { setAttractive(e.target.checked); }}
 
-                />
+                /> */}
 
-                <Button onClick={() => { handleSubmit() }}>Submit</Button>
+                <Button sx={{ width: '100%', bgcolor: '#1976d240' }} onClick={() => { handleSubmit() }}>Submit</Button>
             </Grid>
 
 
