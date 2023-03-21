@@ -49,7 +49,7 @@ export default function ButtonAppBar() {
                         <MenuIcon />
                     </IconButton>
                     <Button href='/' color="inherit">Home</Button>
-                    <Button href='/top-news' color="inherit">TopNews</Button>
+                    <Button href='/news' color="inherit">News</Button>
                     <Button href='/contact' color="inherit">Contact</Button>
                     {user ? <>
                         <Button style={{ position: 'absolute', right: '5%' }} onClick={handleLogout} color="inherit">Logout</Button>

@@ -73,7 +73,7 @@ export default function AddNews() {
                 return response.json()
             })
                 .then(data => {
-                    console.log(data)
+                    // return ((window.location.href = `/dashboard`))
                     alert('Add successfully!')
                 })
                 .catch(error => console.log(error.message));

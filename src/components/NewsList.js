@@ -1,7 +1,7 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
-
+import DeleteIcon from '@mui/icons-material/Delete';
 export default function NewsList() {
     const [openDialog, setOpenDialog] = React.useState(false);
     const [deleteId, setDeleteId] = React.useState(0);
@@ -49,25 +49,32 @@ export default function NewsList() {
                         <th>Name</th>
                         <th>Price</th>
                         <th>Rating</th>
-                        <th>category</th>
-                        <th>bestseller</th>
+                        <th>Category</th>
+                        <th>Bestseller</th>
                         <th>Image URL</th>
+                        <th>Action</th>
+
                     </tr>
                 </thead>
                 <tbody>
                     {news.map((item) => (
-                        <tr key={item.id}>
-                            <td>{item.name}</td>
-                            <td>{item.price}</td>
+                        <tr key={item.id} >
+                            <td style={{ width: '20%' }}>{item.name}</td>
+                            <td >{item.price}</td>
                             <td>{item.rating}</td>
                             <td>{item.category}</td>
                             <td>{item.bestseller === true ? 'True' : 'False'}</td>
-                            <td>{item.image}</td>
+                            <td><img style={{ width: '40px' }} src={item.image}></img></td>
                             <td>
-                                <Link to={`/news/${item.id}`}>View</Link>
-                                <Link to={`/news/${item.id}/edit`}>Edit</Link>
-                                <Button onClick={() => handleClickOpenDialog(item.id)}>Delete</Button>
+                                {/* <Link to={`/news/${item.id}`}>View</Link>
+                                <Link to={`/news/${item.id}/edit`}>Edit</Link> */}
+                                <IconButton onClick={() => handleClickOpenDialog(item.id)}>
+                                    <DeleteIcon></DeleteIcon>
+                                </IconButton>
+
+
                             </td>
+
                         </tr>
                     ))}
                 </tbody>
