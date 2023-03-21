@@ -2,14 +2,14 @@ import { Button, Checkbox, Grid, TextField, Typography } from '@mui/material'
 import React, { useState } from 'react'
 
 export default function AddNews() {
-    const [title, setTitle] = useState('');
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState(0);
     const [description, setDescription] = useState('');
-    const [content, setContent] = useState('');
-    const [img, setImg] = useState('');
-    const [creted, setCreated] = useState('');
-    const [status, setStatus] = useState(false);
-    const [views, setViews] = useState(1);
-    const [attractive, setAttractive] = useState(false);
+    const [rating, setRating] = useState(0);
+    const [category, setCategory] = useState('');
+    const [bestseller, setBestseller] = useState(false);
+    const [image, setImage] = useState('');
+
 
     // const [formData, setFormData] = useState({
     //     title: title,
@@ -21,59 +21,48 @@ export default function AddNews() {
     //     views: views,
     //     attractive: attractive,
     // })
-    const [messtitle, setmesstitle] = useState('');
+    const [messname, setmessname] = useState('');
     const [messdescription, setmessdescription] = useState('');
-    const [messcontent, setmesscontent] = useState('');
-    const [messcreted, setmesscreted] = useState('');
-    const [messimg, setmessimg] = useState('');
-    const [messviews, setmessviews] = useState('');
+    const [messcategory, setmesscategory] = useState('');
+    const [messimage, settmessimage] = useState('');
 
     const handleSubmit = () => {
         const regex = /^.{6,}/i;
-        if (!regex.test(title) || !regex.test(description) || !regex.test(content) || !regex.test(img) || !regex.test(creted) || views <= 0) {
-            if (!regex.test(title)) {
-                setmesstitle('Title must be more than 6 charecter!')
+        if (!regex.test(name) || !regex.test(description) || !regex.test(category) || !regex.test(image)) {
+            if (!regex.test(name)) {
+                setmessname('Name must be more than 6 charecter!')
             } else {
-                setmesstitle('')
+                setmessname('')
             }
             if (!regex.test(description)) {
                 setmessdescription('Description be more than 6 charecter!')
             } else {
                 setmessdescription('')
             }
-            if (!regex.test(content)) {
-                setmesscontent('Content be more than 6 charecter!')
+            if (!regex.test(category)) {
+                setmesscategory('category be more than 6 charecter!')
             } else {
-                setmesscontent('')
+                setmesscategory('')
             }
-            if (!regex.test(img)) {
-                setmessimg('Img URL be more than 6 charecter!')
+            if (!regex.test(image)) {
+                settmessimage('Img URL be more than 6 charecter!')
             } else {
-                setmessimg('')
+                settmessimage('')
             }
-            if (!regex.test(creted)) {
-                setmesscreted('creted be more than 6 charecter!')
-            } else {
-                setmesscreted('')
-            }
-            if (views <= 0) {
-                setmessviews('View must be geate than 1')
-            } else {
-                setmessviews('')
-            }
+
         }
         else {
             fetch(`https://6418728e75be53f451dfc104.mockapi.io/news`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    title: title,
+                    name: name,
+                    price: price,
                     description: description,
-                    content: content,
-                    img: img,
-                    creted: creted,
-                    status: status,
-                    views: views,
-                    attractive: attractive,
+                    rating: rating,
+                    category: category,
+                    bestseller: bestseller,
+                    image: image,
+
                 }), headers: {
                     'Content-Type': 'application/json'
                 },
@@ -83,7 +72,10 @@ export default function AddNews() {
                 }
                 return response.json()
             })
-                .then(data => { console.log(data) })
+                .then(data => {
+                    console.log(data)
+                    alert('Add successfully!')
+                })
                 .catch(error => console.log(error.message));
         }
 
@@ -95,14 +87,26 @@ export default function AddNews() {
                 <TextField
                     autoFocus
                     margin="dense"
-                    name="title"
-                    label="Title"
+                    name="name"
+                    label="Name"
                     type="text"
                     fullWidth
                     variant="standard"
-                    onChange={(e) => { setTitle(e.target.value); }}
+                    onChange={(e) => { setName(e.target.value); }}
                 />
-                {messtitle && <Typography sx={{ color: 'red' }}>{messtitle}</Typography>}
+                {messname && <Typography sx={{ color: 'red' }}>{messname}</Typography>}
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    name="price"
+                    label="price"
+                    type="number"
+                    fullWidth
+                    variant="standard"
+                    onChange={(e) => { setPrice(e.target.value); }}
+                />
+                {/* {mess && <Typography sx={{ color: 'red' }}>{messcontent}</Typography>} */}
+
                 <TextField
                     autoFocus
                     margin="dense"
@@ -115,85 +119,52 @@ export default function AddNews() {
                 />
                 {messdescription && <Typography sx={{ color: 'red' }}>{messdescription}</Typography>}
 
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    name="content"
-                    label="Content"
-                    type="text"
-                    fullWidth
-                    variant="standard"
-                    onChange={(e) => { setContent(e.target.value); }}
-                />
-                {messcontent && <Typography sx={{ color: 'red' }}>{messcontent}</Typography>}
+
 
                 <TextField
                     autoFocus
                     margin="dense"
-                    name="img"
-                    label="Img URL"
-                    type="text"
-                    fullWidth
-                    variant="standard"
-                    onChange={(e) => { setImg(e.target.value); }}
-                />
-                {messimg && <Typography sx={{ color: 'red' }}>{messimg}</Typography>}
-
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    name="creted"
-                    label="creted"
-                    type="text"
-                    fullWidth
-                    variant="standard"
-                    onChange={(e) => { setCreated(e.target.value); }}
-                />
-                {messcreted && <Typography sx={{ color: 'red' }}>{messcreted}</Typography>}
-
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    name="views"
-                    label="Views"
+                    name="rating"
+                    label="rating"
                     type="number"
-                    defaultValue={1}
                     fullWidth
                     variant="standard"
-                    onChange={(e) => { setViews(e.target.value); }}
+                    onChange={(e) => { setRating(e.target.value); }}
                 />
-                {messviews && <Typography sx={{ color: 'red' }}>{messviews}</Typography>}
+                {/* {messrating && <Typography sx={{ color: 'red' }}>{messimg}</Typography>} */}
 
-                {/* <FormControlLabel
-                    control={<Checkbox />}
-                    label="Status"
-                    labelPlacement="start"
-                    onChange={(e) => { setStatus(e.target.checked); }}
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    name="category"
+                    label="category"
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    onChange={(e) => { setCategory(e.target.value); }}
+                />
+                {messcategory && <Typography sx={{ color: 'red' }}>{messcategory}</Typography>}
 
-                /> */}
+                <TextField
+                    autoFocus
+                    margin="dense"
+                    name="image"
+                    label="Image URL"
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    onChange={(e) => { setImage(e.target.value); }}
+                />
+                {messimage && <Typography sx={{ color: 'red' }}>{messimage}</Typography>}
 
                 <Typography sx={{ margin: '10px' }}>
-                    Status: <Checkbox
-                        onChange={(e) => { setStatus(e.target.checked); }}
+                    Bestseller: <Checkbox
+                        onChange={(e) => { setBestseller(e.target.checked); }}
                         inputProps={{ 'aria-label': 'controlled' }}
                     />
                 </Typography>
 
-                <Typography sx={{ margin: '10px' }}>
-                    Attractive: <Checkbox
-                        onChange={(e) => { setAttractive(e.target.checked); }}
-                        inputProps={{ 'aria-label': 'controlled' }}
-                    />
-                </Typography>
 
-                {/* 
-                <FormControlLabel
-                    control={<Checkbox />}
-                    label="Attractive"
-                    labelPlacement="start"
-                    onChange={(e) => { setAttractive(e.target.checked); }}
-
-                /> */}
 
                 <Button sx={{ width: '100%', bgcolor: '#1976d240' }} onClick={() => { handleSubmit() }}>Submit</Button>
             </Grid>

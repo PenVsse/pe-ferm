@@ -46,16 +46,23 @@ export default function NewsList() {
             <table>
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Actions</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Rating</th>
+                        <th>category</th>
+                        <th>bestseller</th>
+                        <th>Image URL</th>
                     </tr>
                 </thead>
                 <tbody>
                     {news.map((item) => (
                         <tr key={item.id}>
-                            <td>{item.title}</td>
-                            <td>{item.description}</td>
+                            <td>{item.name}</td>
+                            <td>{item.price}</td>
+                            <td>{item.rating}</td>
+                            <td>{item.category}</td>
+                            <td>{item.bestseller === true ? 'True' : 'False'}</td>
+                            <td>{item.image}</td>
                             <td>
                                 <Link to={`/news/${item.id}`}>View</Link>
                                 <Link to={`/news/${item.id}/edit`}>Edit</Link>

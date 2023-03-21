@@ -2,31 +2,28 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 
 export default function Detail() {
-    const newsId = useParams();
-    const [newsItem, setNewsItem] = useState({});
+    const productid = useParams();
+    const [productItem, setProductItem] = useState({});
     useEffect(() => {
-        fetch(`https://6418728e75be53f451dfc104.mockapi.io/news/${newsId.id}`)
+        fetch(`https://6418728e75be53f451dfc104.mockapi.io/news/${productid.id}`)
             .then((response) => response.json())
             .then((data) => {
-                setNewsItem(data)
+                setProductItem(data)
                 console.log(data)
 
             })
             .catch((error) => console.log(error));
-    }, [newsId]);
+    }, [productid]);
     return (
         <div>
-            <h1>{newsItem.title}</h1>
-            <p>{newsItem.description}</p>
-            <p>{newsItem.content}</p>
+            <img style={{ height: '400px' }} src={productItem.image} alt='' />
+            <h1>{productItem.name}</h1>
+            <p>Description: {productItem.description}</p>
+            <p>Price: {productItem.price}$</p>
+            <p>Bestseller: {productItem.bestseller}</p>
+            <p>Rating: {productItem.rating}</p>
+            <p>Category: {productItem.category}</p>
 
-            <img src={newsItem.img} alt={newsItem.title} />
-
-            <p>views:{newsItem.views}</p>
-            <>attractive:{newsItem.attractive
-                ? <>True</>
-                : <>False</>}
-            </>
         </div>
     )
 }
